@@ -1,0 +1,54 @@
+{
+    "Test empty outputs - stdout non empty": {
+        "content": [
+            {
+                "empty_env": [
+                    null
+                ],
+                "eval_empty": [
+                    null
+                ],
+                "eval_filled": [
+                    "Hello world!"
+                ],
+                "my_constant": [
+                    "This is a test"
+                ],
+                "stdout": [
+                    "for stdout\n"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-25T10:36:47.622282129",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    },
+    "Test empty outputs - empty stdout": {
+        "content": [
+            {
+                "empty_env": [
+                    null
+                ],
+                "eval_empty": [
+                    null
+                ],
+                "eval_filled": [
+                    "Hello world!"
+                ],
+                "my_constant": [
+                    "This is a test"
+                ],
+                "stdout": [
+                    "\n"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-25T10:36:50.317754642",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}
