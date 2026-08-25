@@ -3,10 +3,10 @@
         "content": [
             {
                 "empty_env": [
-                    null
+                    
                 ],
                 "eval_empty": [
-                    null
+                    
                 ],
                 "eval_filled": [
                     "Hello world!"
@@ -19,7 +19,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-25T10:36:47.622282129",
+        "timestamp": "2026-08-25T10:46:42.164258847",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"
@@ -29,10 +29,10 @@
         "content": [
             {
                 "empty_env": [
-                    null
+                    
                 ],
                 "eval_empty": [
-                    null
+                    
                 ],
                 "eval_filled": [
                     "Hello world!"
@@ -45,7 +45,7 @@
                 ]
             }
         ],
-        "timestamp": "2026-08-25T10:36:50.317754642",
+        "timestamp": "2026-08-25T10:46:45.466809114",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"

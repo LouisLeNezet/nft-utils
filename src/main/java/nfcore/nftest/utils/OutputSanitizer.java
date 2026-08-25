@@ -210,7 +210,7 @@ public final class OutputSanitizer {
     if (value instanceof String) {
       String strValue = (String) value;
       if (strValue.isEmpty()) {
-        return null;
+        return IGNORE;
       }
       java.nio.file.Path path = Paths.get(strValue);
       if (Files.isDirectory(path)) {
