@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
  */
 public final class OutputSanitizer {
 
+  /** Default number of decimal places for CSV double values. */
+  private static final int DEFAULT_CSV_DOUBLE_DIGITS = 6;
+
   /**
    * Prevents instantiation of this utility class.
    */
@@ -140,6 +143,15 @@ public final class OutputSanitizer {
       (List<String>) options.getOrDefault("csvMD5Keys", List.of());
 
     String referenceFasta = (String) options.getOrDefault("referenceFasta", "");
+    int csvDoubleDigits = (int) options.getOrDefault(
+      "csvDoubleDigits", DEFAULT_CSV_DOUBLE_DIGITS
+    );
+
+    if (csvDoubleDigits < 0) {
+      throw new IllegalArgumentException(
+        "csvDoubleDigits must be greater than or equal to zero"
+      );
+    }
 
     validateKeyUsage(
       unstableKeys, ignoreKeys, readsMD5Keys,
@@ -189,7 +201,7 @@ public final class OutputSanitizer {
       } else if (variantsMD5Keys.contains(key)) {
         output.put(key, VcfUtils.vcfMD5(value));
       } else if (csvMD5Keys.contains(key)) {
-        output.put(key, CsvUtils.csvMD5(value));
+        output.put(key, CsvUtils.csvMD5(value, csvDoubleDigits));
       } else {
         output.put(key, checkPattern(value, unstablePatterns, ignorePatterns));
       }

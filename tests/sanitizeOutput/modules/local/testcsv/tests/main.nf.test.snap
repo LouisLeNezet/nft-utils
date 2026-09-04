@@ -1,18 +1,18 @@
 {
     "Default sanitize output - with csvMD5Keys": {
         "content": [
-            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.000012\ntest.txt,C,3.046136\n",
-            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.000012\ntest.txt,C,3.046136\n",
-            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.000012\ntest.txt,C,3.046136\n",
+            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.034013\ntest.txt,C,3.046136\n",
+            "path,sample,value\nfiles.py,B,2.0\nfolder,A,1.034\ntest.txt,C,3.0461\n",
+            "path,sample,value\nfiles.py,B,2.0\nfolder,A,1.03\ntest.txt,C,3.05\n",
             {
                 "normalized": [
                     [
                         {
                             "id": "test"
                         },
-                        "test.txt:md5NormedCsv,d53196e452f480a092a445583136fe1c",
-                        "test.tsv:md5NormedCsv,d53196e452f480a092a445583136fe1c",
-                        "test.csv:md5NormedCsv,d53196e452f480a092a445583136fe1c"
+                        "test.txt:md5NormedCsv,3cc6189a86694164ef0823f0d79cce1e",
+                        "test.tsv:md5NormedCsv,3cc6189a86694164ef0823f0d79cce1e",
+                        "test.csv:md5NormedCsv,3cc6189a86694164ef0823f0d79cce1e"
                     ]
                 ],
                 "not_normalize": [
@@ -20,14 +20,14 @@
                         {
                             "id": "test"
                         },
-                        "test.txt:md5,6ecd866cdb483217eb14305f3962b6a5",
-                        "test.tsv:md5,1fe3204d369753f154df1f0409942b4f",
-                        "test.csv:md5,633e39d8f4caf5bf6774dfe425e86230"
+                        "test.txt:md5,1e7668ff39b42270cace425dee8e90ba",
+                        "test.tsv:md5,dde78abef7864bc1887d3fb43b1d9f1d",
+                        "test.csv:md5,c18fb55c304d2c4fbb02d643ee15998c"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-09-04T11:51:55.056781024",
+        "timestamp": "2026-09-04T13:24:12.383033034",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.6"

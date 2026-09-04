@@ -16,9 +16,9 @@ nextflow_process {
             assert process.success
             assert snapshot(
               normalizeCsv(path(process.out.normalized[0][1])),
-              normalizeCsv(path(process.out.normalized[0][2])),
-              normalizeCsv(path(process.out.normalized[0][3])),
-              sanitizeOutput(process.out, csvMD5Keys:["normalized"])
+              normalizeCsv(path(process.out.normalized[0][2]), 4),
+              normalizeCsv(path(process.out.normalized[0][3]), 2),
+              sanitizeOutput(process.out, csvMD5Keys:["normalized"], csvDoubleDigits: 5)
             ).match()
         }
     }

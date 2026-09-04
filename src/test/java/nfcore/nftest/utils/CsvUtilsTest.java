@@ -18,7 +18,7 @@ class CsvUtilsTest {
     );
 
     final CsvUtils.CsvTable normalized =
-      CsvUtils.normalizeTable(input);
+      CsvUtils.normalizeTable(input, 6);
 
     assertEquals(
       List.of("a_column", "m_column", "z_column"),
@@ -43,7 +43,7 @@ class CsvUtilsTest {
     );
 
     final CsvUtils.CsvTable normalized =
-      CsvUtils.normalizeTable(input);
+      CsvUtils.normalizeTable(input, 6);
 
     assertEquals("1.123457", normalized.rows().get(0).get(0));
     assertEquals("10.0", normalized.rows().get(1).get(0));
@@ -61,7 +61,7 @@ class CsvUtilsTest {
     );
 
     final CsvUtils.CsvTable normalized =
-      CsvUtils.normalizeTable(input);
+      CsvUtils.normalizeTable(input, 6);
 
     assertEquals("a.csv", normalized.rows().get(0).get(0));
     assertEquals("b.csv", normalized.rows().get(1).get(0));
@@ -79,7 +79,7 @@ class CsvUtilsTest {
     );
 
     final CsvUtils.CsvTable normalized =
-      CsvUtils.normalizeTable(input);
+      CsvUtils.normalizeTable(input, 6);
 
     assertEquals(
       List.of("A", "1.016855"),
@@ -100,14 +100,14 @@ class CsvUtilsTest {
     final CsvUtils.CsvTable input = new CsvUtils.CsvTable(
       List.of("value", "sample", "path"),
       List.of(
-        List.of("2", "B", "/usr/local/bin/folder/"),
-        List.of("1", "A", "/usr/local/bin/folder/files.py"),
-        List.of("3", "C", "C:/This/Is/another/paht/test.txt")
+        List.of("2.123", "B", "/usr/local/bin/folder/"),
+        List.of("1.456", "A", "/usr/local/bin/folder/files.py"),
+        List.of("3.789", "C", "C:/This/Is/another/paht/test.txt")
       )
     );
 
     final CsvUtils.CsvTable normalized =
-      CsvUtils.normalizeTable(input);
+      CsvUtils.normalizeTable(input, 2);
 
     assertEquals(
       List.of("path", "sample", "value"),
@@ -115,15 +115,15 @@ class CsvUtilsTest {
     );
 
     assertEquals(
-      List.of("files.py", "A", "1"),
+      List.of("files.py", "A", "1.46"),
       normalized.rows().get(0)
     );
     assertEquals(
-      List.of("folder", "B", "2"),
+      List.of("folder", "B", "2.12"),
       normalized.rows().get(1)
     );
     assertEquals(
-      List.of("test.txt", "C", "3"),
+      List.of("test.txt", "C", "3.79"),
       normalized.rows().get(2)
     );
   }

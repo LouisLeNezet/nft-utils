@@ -734,11 +734,11 @@ then {
 
 - `csvMD5Keys`: A list of keys containing flat text table. MD5 sum of files with `<.txt,.tsv,.csv>` extension will be replaces by the normalized CSV MD5 sum.
 The CSV normalisation includes: rows and columns sorted, floating value rounded to 6 decimals, absolute path changed to file or folder only name, end line character standardized to `\n`. The internal normalisation is also exposed for debugging use with `normalizeCsv(path(process.out.csv[0][1]))`.
-This will give back the normalized concatenated string of the whole csv.
+This will give back the normalized concatenated string of the whole csv. You can specify the number of digits you want to round to with `csvDoubleDigits` (default is 6 decimals).
 
 ```groovy
 then {
-  assert snapshot(sanitizeOutput(process.out, csvMD5Keys:["csv"])).match()
+  assert snapshot(sanitizeOutput(process.out, csvMD5Keys:["csv"], csvDoubleDigits: 4)).match()
 }
 ```
 

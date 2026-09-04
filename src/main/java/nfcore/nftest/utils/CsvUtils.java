@@ -26,11 +26,6 @@ import org.apache.commons.csv.CSVRecord;
 public final class CsvUtils {
 
   /**
-   * Number of decimal places used when normalizing floating-point values.
-   */
-  private static final int FLOATING_POINT_SCALE = 6;
-
-  /**
    * Prevents instantiation of this utility class.
    */
   private CsvUtils() {
@@ -40,9 +35,11 @@ public final class CsvUtils {
    * Calculates the normalized MD5 for CSV/TSV/TXT files recursively.
    *
    * @param value value containing CSV/TSV/TXT files
+   * @param digits the number of decimal places to retain for floating-point
+   * values
    * @return value with normalized MD5 replacements
    */
-  public static Object csvMD5(final Object value) {
+  public static Object csvMD5(final Object value, final int digits) {
     return OutputSanitizer.recursiveParse(value, strValue -> {
       final Path path = Paths.get(strValue);
 
@@ -62,7 +59,7 @@ public final class CsvUtils {
 
       return path.getFileName().toString()
         + ":md5NormedCsv,"
-        + getCsvMD5(path);
+        + getCsvMD5(path, digits);
     });
   }
 
@@ -72,11 +69,13 @@ public final class CsvUtils {
    * rows.
    *
    * @param table the table to normalize
+   * @param digits the number of decimal places to retain for floating-point
+   * values
    * @return the normalized table
    */
-  static CsvTable normalizeTable(final CsvTable table) {
+  static CsvTable normalizeTable(final CsvTable table, final int digits) {
     CsvTable tableNormed = normalizeColumns(table);
-    tableNormed = normalizeValues(tableNormed);
+    tableNormed = normalizeValues(tableNormed, digits);
     tableNormed = normalizeRows(tableNormed);
     return tableNormed;
   }
@@ -90,14 +89,16 @@ public final class CsvUtils {
    * paths, then serialized as deterministic CSV.
    *
    * @param path path to the CSV, TSV, or semicolon-separated text file
+   * @param digits the number of decimal places to retain for floating-point
+   * values
    * @return the normalized CSV representation of the file
    * @throws RuntimeException if the file cannot be read, normalized, or
    * rendered
    */
-  public static String normalizeCsv(final Path path) {
+  public static String normalizeCsv(final Path path, final int digits) {
     try {
       CsvTable table = readTable(path);
-      table = normalizeTable(table);
+      table = normalizeTable(table, digits);
       return toCanonicalCsv(table);
     } catch (Exception e) {
       throw new RuntimeException(
@@ -111,11 +112,13 @@ public final class CsvUtils {
    * Calculates an MD5 from a canonical representation of the CSV.
    *
    * @param path CSV/TSV/TXT file
+   * @param digits the number of decimal places to retain for floating-point
+   * values
    * @return normalized MD5
    */
-  private static String getCsvMD5(final Path path) {
+  private static String getCsvMD5(final Path path, final int digits) {
     try {
-      return md5(normalizeCsv(path));
+      return md5(normalizeCsv(path, digits));
     } catch (Exception e) {
       throw new RuntimeException(
         "Failed to calculate normalized CSV MD5 for file: " + path,
@@ -148,10 +151,12 @@ public final class CsvUtils {
       .setIgnoreEmptyLines(false)
       .build();
 
-    try (CSVParser parser = CSVParser.parse(
-      new StringReader(content),
-      format
-    )) {
+    try (
+      CSVParser parser = CSVParser.builder()
+        .setReader(new StringReader(content))
+        .setFormat(format)
+        .get()
+    ) {
       final List<List<String>> rows = new ArrayList<>();
       for (final CSVRecord record : parser) {
         final List<String> row = new ArrayList<>();
@@ -264,9 +269,14 @@ public final class CsvUtils {
    * configured precision and simplifying absolute paths.
    *
    * @param table the table whose values should be normalized
+   * @param digits the number of decimal places to retain for floating-point
+   * values
    * @return the normalized table
    */
-  private static CsvTable normalizeValues(final CsvTable table) {
+  private static CsvTable normalizeValues(
+    final CsvTable table,
+    final int digits
+  ) {
     final List<List<String>> rows = new ArrayList<>();
     for (List<String> row : table.rows()) {
       final List<String> normalizedRow = new ArrayList<>();
@@ -278,7 +288,7 @@ public final class CsvUtils {
             Double.toString(
               round(
                 Double.parseDouble(value),
-                FLOATING_POINT_SCALE
+                digits
               )
             )
           );
