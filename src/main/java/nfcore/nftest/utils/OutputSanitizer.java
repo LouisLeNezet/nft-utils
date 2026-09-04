@@ -52,13 +52,15 @@ public final class OutputSanitizer {
    * @param ignoreKeys Keys configured to be ignored.
    * @param readsMD5Keys Keys configured for reads MD5 calculation.
    * @param variantsMD5Keys Keys configured for variants MD5 calculation.
+   * @param csvMD5Keys Keys configured for CSV MD5 calculation.
    * @throws RuntimeException If a key is configured in more than one category.
    */
   static void validateKeyUsage(
     final List<String> unstableKeys,
     final List<String> ignoreKeys,
     final List<String> readsMD5Keys,
-    final List<String> variantsMD5Keys
+    final List<String> variantsMD5Keys,
+    final List<String> csvMD5Keys
   ) {
     Map<String, String> keyUsage = new HashMap<>();
 
@@ -66,6 +68,7 @@ public final class OutputSanitizer {
     addKeyUsage(keyUsage, ignoreKeys, "ignoreKeys");
     addKeyUsage(keyUsage, readsMD5Keys, "readsMD5Keys");
     addKeyUsage(keyUsage, variantsMD5Keys, "variantsMD5Keys");
+    addKeyUsage(keyUsage, csvMD5Keys, "csvMD5Keys");
   }
 
   /**
@@ -133,14 +136,21 @@ public final class OutputSanitizer {
     List<String> variantsMD5Keys =
       (List<String>) options.getOrDefault("variantsMD5Keys", List.of());
 
+    List<String> csvMD5Keys =
+      (List<String>) options.getOrDefault("csvMD5Keys", List.of());
+
     String referenceFasta = (String) options.getOrDefault("referenceFasta", "");
 
-    validateKeyUsage(unstableKeys, ignoreKeys, readsMD5Keys, variantsMD5Keys);
+    validateKeyUsage(
+      unstableKeys, ignoreKeys, readsMD5Keys,
+      variantsMD5Keys, csvMD5Keys
+    );
 
     validateKeysInChannel(unstableKeys, channel);
     validateKeysInChannel(ignoreKeys, channel);
     validateKeysInChannel(readsMD5Keys, channel);
     validateKeysInChannel(variantsMD5Keys, channel);
+    validateKeysInChannel(csvMD5Keys, channel);
 
     if (!readsMD5Keys.isEmpty() && !BamUtils.isNftBamAvailable()) {
       System.err.println(
@@ -178,6 +188,8 @@ public final class OutputSanitizer {
         output.put(key, BamUtils.bamMD5(value, referenceFasta));
       } else if (variantsMD5Keys.contains(key)) {
         output.put(key, VcfUtils.vcfMD5(value));
+      } else if (csvMD5Keys.contains(key)) {
+        output.put(key, CsvUtils.csvMD5(value));
       } else {
         output.put(key, checkPattern(value, unstablePatterns, ignorePatterns));
       }

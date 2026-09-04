@@ -1060,6 +1060,16 @@ public final class Methods {
   }
 
   /**
+   * Normalizes a CSV file and returns its canonical representation.
+   *
+   * @param path The CSV file to normalize.
+   * @return The normalized CSV content.
+   */
+  public static String normalizeCsv(final Path path) {
+    return CsvUtils.normalizeCsv(path);
+  }
+
+  /**
    * Download a tar archive and extract it in the given destination directory.
    * The file is streamed directly with `curl` into `tar` via a pipe.
    * The compression type must be provided if applicable.

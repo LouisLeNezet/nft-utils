@@ -1,0 +1,36 @@
+{
+    "Default sanitize output - with csvMD5Keys": {
+        "content": [
+            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.000012\ntest.txt,C,3.046136\n",
+            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.000012\ntest.txt,C,3.046136\n",
+            "path,sample,value\nfiles.py,B,2.000021\nfolder,A,1.000012\ntest.txt,C,3.046136\n",
+            {
+                "normalized": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.txt:md5NormedCsv,d53196e452f480a092a445583136fe1c",
+                        "test.tsv:md5NormedCsv,d53196e452f480a092a445583136fe1c",
+                        "test.csv:md5NormedCsv,d53196e452f480a092a445583136fe1c"
+                    ]
+                ],
+                "not_normalize": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.txt:md5,6ecd866cdb483217eb14305f3962b6a5",
+                        "test.tsv:md5,1fe3204d369753f154df1f0409942b4f",
+                        "test.csv:md5,633e39d8f4caf5bf6774dfe425e86230"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-09-04T11:51:55.056781024",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
+        }
+    }
+}
